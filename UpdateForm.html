@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Personnel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #667eea;
+    }
+
+    .header h1 {
+      color: #2c3e50;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 16px 20px;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .section-content {
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #2c3e50;
+      font-size: 14px;
+    }
+
+    .form-group label.required::after {
+      content: " *";
+      color: #e74c3c;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-group input:disabled,
+    .form-group input[readonly] {
+      background-color: #f8f9fa;
+      color: #6c757d;
+      cursor: not-allowed;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .field-help {
+      font-size: 12px;
+      color: #6c757d;
+      margin-top: 4px;
+    }
+
+    .checkbox-group {
+      background: #e7f3ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .preview-box {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      border: 1px solid #dee2e6;
+    }
+
+    .preview-box h4 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .preview-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .preview-box li {
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .preview-box li:last-child {
+      border-bottom: none;
+    }
+
+    .warning-box {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 15px 0;
+    }
+
+    .info-box {
+      background: #d1ecf1;
+      border-left: 4px solid #17a2b8;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 15px 0;
+      color: #0c5460;
+    }
+
+    .warning-box strong,
+    .info-box strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+      color: white;
+    }
+
+    .form-actions {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #e9ecef;
+    }
+
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      color: white;
+    }
+
+    .loading.show {
+      display: flex;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #28a745;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      z-index: 10000;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .toast.error {
+      background: #dc3545;
+    }
+
+    .toast.show {
+      display: block;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateX(-50%) translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📝 Update Personnel Information</h1>
+    </div>
+
+    <form id="updateForm">
+      <!-- Select Principal -->
+      <div class="form-section">
+        <div class="section-header">Select Principal</div>
+        <div class="section-content">
+          <div class="form-group">
+            <label class="required">Principal</label>
+            <select id="principalSelect" required>
+              <option value="">Choose Principal...</option>
+            </select>
+          </div>
+
+          <div id="currentInfo" class="hidden">
+            <div class="form-group">
+              <label>Current Post/Station</label>
+              <input type="text" id="currentPost" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Extension Details -->
+      <div id="extensionSection" class="form-section hidden">
+        <div class="section-header">Extension Information</div>
+        <div class="section-content">
+          <div class="form-group">
+            <label>Original Departure Date</label>
+            <input type="text" id="originalDeparture" readonly>
+            <div class="field-help">This is the original departure date (for reference)</div>
+          </div>
+
+          <div class="form-group">
+            <label class="required">Extended?</label>
+            <select id="extended" required>
+              <option value="" selected disabled>Select Status</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div class="field-help">
+              Choose "Yes" to extend tour, or "No" if principal is departing
+            </div>
+          </div>
+
+          <div id="extensionFields" class="hidden">
+            <div class="form-group">
+              <label class="required">New Departure Date</label>
+              <input type="date" id="newDeparture" required>
+              <div class="field-help">Enter the new/extended departure date</div>
+            </div>
+
+            <div class="form-group">
+              <label class="required">Extension Details</label>
+              <textarea id="extensionDetails" required placeholder="e.g., Tour extended +6 months per DFA Order 2025-001"></textarea>
+              <div class="field-help">Describe the extension (duration, reason, order number, etc.)</div>
+            </div>
+
+            <!-- Smart Attendance Extension -->
+            <div class="checkbox-group">
+              <label>
+                <input type="checkbox" id="extendAttendance" checked>
+                <span style="font-weight: 600;">
+                  🔄 Also record attendance for active family members
+                </span>
+              </label>
+              <p style="font-size: 0.85rem; color: #666; margin-top: 8px; margin-left: 30px;">
+                This will automatically record "At Post" for active dependents and staff, 
+                resetting their 90-day attendance window.
+              </p>
+            </div>
+
+            <!-- Family Preview -->
+            <div id="familyPreview" class="preview-box hidden">
+              <h4>📋 Attendance Extension Preview</h4>
+              
+              <div id="activeFamily">
+                <strong style="color: #28a745;">✅ Will extend attendance for:</strong>
+                <ul id="activeFamilyList">
+                  <!-- Populated by JavaScript -->
+                </ul>
+              </div>
+
+              <div id="archivedFamily" class="hidden" style="margin-top: 15px;">
+                <strong style="color: #856404;">⚠️ Skipped (already withdrawn):</strong>
+                <ul id="archivedFamilyList">
+                </ul>
+              </div>
+            </div>
+
+            <!-- Form Actions INSIDE extensionFields -->
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" onclick="google.script.host.close()">Cancel</button>
+              <button type="submit" class="btn btn-primary">💾 Save Extension</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Withdraw Principal & Family -->
+      <div id="withdrawalSection" class="form-section hidden">
+        <div class="section-header" style="background: linear-gradient(135deg, #dc3545, #c82333);">
+          🚪 Withdraw Principal & Family
+        </div>
+        <div class="section-content">
+          <div class="warning-box">
+            <strong>⚠️ Warning:</strong> This action will withdraw the principal and ALL their dependents/staff together. This cannot be undone.
+          </div>
+
+          <div id="familyMembersList" class="preview-box">
+            <h4>👥 Family Members to be Withdrawn:</h4>
+            <ul id="withdrawalPreview">
+              <!-- Populated by JavaScript -->
+            </ul>
+          </div>
+
+          <div class="form-group">
+            <label class="required">Departure Date</label>
+            <input type="date" id="familyDepartureDate" required>
+          </div>
+
+          <div class="form-group">
+            <label class="required">Withdrawal Reason</label>
+            <textarea id="familyWithdrawalReason" rows="3" placeholder="e.g., Principal recalled to Manila per DFA Order 2025-123" required></textarea>
+          </div>
+
+          <div class="checkbox-group" style="background: #fff3cd; border: 2px solid #ffc107;">
+            <label>
+              <input type="checkbox" id="confirmWithdrawal">
+              <span style="color: #856404; font-weight: 600;">
+                ⚠️ I confirm that I want to withdraw this principal and their entire family. This action cannot be undone.
+              </span>
+            </label>
+          </div>
+
+          <div style="text-align: center; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" style="margin-right: 10px;" onclick="google.script.host.close()">Cancel</button>
+            <button type="button" id="withdrawFamilyBtn" class="btn btn-danger">
+              🚪 Withdraw
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <p id="loadingMessage">Processing...</p>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <script>
+    let principalsList = [];
+    let currentPrincipalData = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadPrincipalsList();
+      setupEventListeners();
+      setupWithdrawalListener();
+    });
+
+    function setupEventListeners() {
+      document.getElementById('principalSelect').addEventListener('change', handlePrincipalChange);
+      document.getElementById('extended').addEventListener('change', handleExtendedChange);
+      document.getElementById('extendAttendance').addEventListener('change', handleAttendanceCheckbox);
+      document.getElementById('updateForm').addEventListener('submit', handleFormSubmit);
+    }
+
+    function loadPrincipalsList() {
+      showLoading('Loading principals...');
+      
+      google.script.run
+        .withSuccessHandler(function(principals) {
+          hideLoading();
+          principalsList = principals;
+          updatePrincipalDropdown(principals);
+        })
+        .withFailureHandler(function(error) {
+          hideLoading();
+          showToast('Failed to load principals: ' + error.message, 'error');
+        })
+        .getExistingPrincipalsFromTracking();
+    }
+
+    function updatePrincipalDropdown(principals) {
+      const select = document.getElementById('principalSelect');
+      
+      if (principals && principals.length > 0) {
+        const sortedPrincipals = principals.map((principal, originalIndex) => ({
+          ...principal,
+          originalIndex
+        })).sort((a, b) => a.fullName.localeCompare(b.fullName));
+
+        select.innerHTML = '<option value="">Choose Principal...</option>';
+        sortedPrincipals.forEach((principal) => {
+          const option = document.createElement('option');
+          option.value = principal.fullName || principal.name;
+          option.textContent = principal.fullName || principal.name;
+          select.appendChild(option);
+        });
+      } else {
+        select.innerHTML = '<option value="">No principals found</option>';
+      }
+    }
+
+    function handlePrincipalChange() {
+      const principalName = this.value;
+      
+      if (!principalName) {
+        document.getElementById('currentInfo').classList.add('hidden');
+        document.getElementById('extensionSection').classList.add('hidden');
+        document.getElementById('withdrawalSection').classList.add('hidden');
+        return;
+      }
+
+      showLoading('Loading personnel data...');
+
+      google.script.run
+        .withSuccessHandler(function(data) {
+          hideLoading();
+          currentPrincipalData = data;
+          displayPersonnelData(data);
+          loadFamilyStatus(principalName);
+          loadFamilyForWithdrawal(principalName);
+        })
+        .withFailureHandler(function(error) {
+          hideLoading();
+          showToast('Failed to load data: ' + error.message, 'error');
+        })
+        .getPersonnelDataForUpdate(principalName);
+    }
+
+    function displayPersonnelData(data) {
+      const currentInfo = document.getElementById('currentInfo');
+      const currentPost = document.getElementById('currentPost');
+      const extensionSection = document.getElementById('extensionSection');
+      const originalDeparture = document.getElementById('originalDeparture');
+      const extendedSelect = document.getElementById('extended');
+      const newDeparture = document.getElementById('newDeparture');
+      const extensionDetails = document.getElementById('extensionDetails');
+      const extensionFields = document.getElementById('extensionFields');
+      const withdrawalSection = document.getElementById('withdrawalSection');
+
+      extensionFields.classList.add('hidden');
+      withdrawalSection.classList.add('hidden');
+      extendedSelect.selectedIndex = 0;
+
+      currentInfo.classList.remove('hidden');
+      currentPost.value = data.postStation || '';
+
+      extensionSection.classList.remove('hidden');
+      originalDeparture.value = data.originalDeparture || '';
+
+      if (data.extended === 'Yes' || data.extended === 'No') {
+        extendedSelect.value = data.extended;
+      }
+
+      switch (data.extended) {
+        case 'Yes':
+          extensionFields.classList.remove('hidden');
+          withdrawalSection.classList.add('hidden');
+          break;
+        case 'No':
+          withdrawalSection.classList.remove('hidden');
+          extensionFields.classList.add('hidden');
+          break;
+        default:
+          extensionFields.classList.add('hidden');
+          withdrawalSection.classList.add('hidden');
+      }
+    }
+
+    function loadFamilyStatus(principalName) {
+      google.script.run
+        .withSuccessHandler(displayFamilyStatus)
+        .withFailureHandler(function(error) {
+          console.error('Failed to load family status:', error);
+        })
+        .getFamilyMembersStatus(principalName);
+    }
+
+    function displayFamilyStatus(familyStatus) {
+      const activeList = document.getElementById('activeFamilyList');
+      const archivedList = document.getElementById('archivedFamilyList');
+      const archivedDiv = document.getElementById('archivedFamily');
+      const previewBox = document.getElementById('familyPreview');
+
+      activeList.innerHTML = '';
+      archivedList.innerHTML = '';
+
+      if (familyStatus.active && familyStatus.active.length > 0) {
+        familyStatus.active.forEach(member => {
+          const li = document.createElement('li');
+          li.innerHTML = `✅ ${escapeHtml(member.name)} (${member.type})`;
+          activeList.appendChild(li);
+        });
+        previewBox.classList.remove('hidden');
+      } else {
+        const li = document.createElement('li');
+        li.innerHTML = '<em style="color: #6c757d;">Principal has no dependents or staff</em>';
+        activeList.appendChild(li);
+        previewBox.classList.remove('hidden');
+      }
+
+      if (familyStatus.archived && familyStatus.archived.length > 0) {
+        familyStatus.archived.forEach(member => {
+          const li = document.createElement('li');
+          li.innerHTML = `❌ ${escapeHtml(member.name)} (${member.type}) - Withdrawn ${member.withdrawalDate || ''}`;
+          archivedList.appendChild(li);
+        });
+        archivedDiv.classList.remove('hidden');
+      } else {
+        archivedDiv.classList.add('hidden');
+      }
+
+      const checkbox = document.getElementById('extendAttendance');
+      if (!familyStatus.active || familyStatus.active.length === 0) {
+        checkbox.checked = false;
+        checkbox.disabled = true;
+      } else {
+        checkbox.disabled = false;
+      }
+    }
+
+  function handleExtendedChange() {
+      const extended = this.value;
+      const extensionFields = document.getElementById('extensionFields');
+      const withdrawalSection = document.getElementById('withdrawalSection');
+      const familyPreview = document.getElementById('familyPreview');
+      
+      // Get ALL relevant input fields
+      const newDepartureInput = document.getElementById('newDeparture');
+      const extensionDetailsInput = document.getElementById('extensionDetails');
+      const withdrawalDepartureInput = document.getElementById('familyDepartureDate');
+      const withdrawalReasonInput = document.getElementById('familyWithdrawalReason');
+
+      if (extended === 'Yes') {
+        // Show Extension fields, hide Withdrawal
+        extensionFields.classList.remove('hidden');
+        withdrawalSection.classList.add('hidden');
+        
+        // ✅ FIX: Make Extension fields required
+        newDepartureInput.setAttribute('required', 'required');
+        extensionDetailsInput.setAttribute('required', 'required');
+        
+        // ✅ FIX: Make Withdrawal fields NOT required
+        withdrawalDepartureInput.removeAttribute('required');
+        withdrawalReasonInput.removeAttribute('required');
+        
+        const principalName = document.getElementById('principalSelect').value;
+        if (principalName) {
+          loadFamilyStatus(principalName);
+        }
+      } else if (extended === 'No') {
+        // Show Withdrawal fields, hide Extension
+        extensionFields.classList.add('hidden');
+        withdrawalSection.classList.remove('hidden');
+        familyPreview.classList.add('hidden');
+        
+        // ✅ FIX: Make Extension fields NOT required
+        newDepartureInput.removeAttribute('required');
+        extensionDetailsInput.removeAttribute('required');
+        
+        // ✅ FIX: Make Withdrawal fields required
+        withdrawalDepartureInput.setAttribute('required', 'required');
+        withdrawalReasonInput.setAttribute('required', 'required');
+        
+      } else {
+        // Hide both sections
+        extensionFields.classList.add('hidden');
+        withdrawalSection.classList.add('hidden');
+        familyPreview.classList.add('hidden');
+        
+        // ✅ FIX: Make ALL fields NOT required
+        newDepartureInput.removeAttribute('required');
+        extensionDetailsInput.removeAttribute('required');
+        withdrawalDepartureInput.removeAttribute('required');
+        withdrawalReasonInput.removeAttribute('required');
+      }
+    }
+
+    function handleAttendanceCheckbox() {
+      // Just for user feedback - actual logic handled in backend
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+
+      const principalName = document.getElementById('principalSelect').value;
+      const extended = document.getElementById('extended').value;
+
+      if (!principalName) {
+        showToast('Please select a principal', 'error');
+        return;
+      }
+
+      if (!extended) {
+        showToast('Please select extension status', 'error');
+        return;
+      }
+
+      if (extended !== 'Yes') {
+        showToast('Please set Extended to "Yes" to record an extension', 'error');
+        return;
+      }
+
+      const newDeparture = document.getElementById('newDeparture').value;
+      const extensionDetails = document.getElementById('extensionDetails').value.trim();
+      const extendAttendance = document.getElementById('extendAttendance').checked;
+
+      if (!newDeparture) {
+        showToast('Please enter new departure date', 'error');
+        return;
+      }
+
+      if (!extensionDetails) {
+        showToast('Please enter extension details', 'error');
+        return;
+      }
+
+      const updateData = {
+        extended: extended,
+        newDeparture: newDeparture,
+        extensionDetails: extensionDetails,
+        extendAttendance: extendAttendance,
+        appendExtension: false
+      };
+
+      showLoading('Saving extension...');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          hideLoading();
+          
+          if (result.success) {
+            showToast(result.message, 'success');
+            
+            setTimeout(function() {
+              google.script.host.close();
+            }, 2000);
+          } else {
+            showToast(result.message || 'Failed to save extension', 'error');
+          }
+        })
+        .withFailureHandler(function(error) {
+          hideLoading();
+          showToast('Error: ' + error.message, 'error');
+        })
+        .updatePersonnelData(principalName, updateData);
+    }
+
+    function setupWithdrawalListener() {
+      const withdrawBtn = document.getElementById('withdrawFamilyBtn');
+      if (withdrawBtn) {
+        withdrawBtn.addEventListener('click', handleWithdrawal);
+      }
+    }
+
+    function loadFamilyForWithdrawal(principalName) {
+      google.script.run
+        .withSuccessHandler(displayWithdrawalPreview)
+        .withFailureHandler(function(error) {
+          console.error('Failed to load family:', error);
+        })
+        .getFamilyMembersForWithdrawal(principalName);
+    }
+
+  // ============================================================================
+  // PART 2: Frontend Fix - UpdateForm.html
+  // ============================================================================
+  // Replace the displayWithdrawalPreview() function (line ~750)
+
+  function displayWithdrawalPreview(familyData) {
+    const previewList = document.getElementById('withdrawalPreview');
+    
+    previewList.innerHTML = '';
+
+    // Principal (always shown)
+    const principalLi = document.createElement('li');
+    principalLi.innerHTML = `<strong>👤 ${escapeHtml(familyData.principalName)}</strong> (Principal)`;
+    principalLi.style.marginBottom = '12px';
+    principalLi.style.fontSize = '15px';
+    previewList.appendChild(principalLi);
+
+    const hasActive = familyData.active && familyData.active.length > 0;
+    const hasWithdrawn = familyData.withdrawn && familyData.withdrawn.length > 0;
+
+    // ============================================================================
+    // ACTIVE FAMILY MEMBERS
+    // ============================================================================
+    if (hasActive) {
+      const activeSectionLi = document.createElement('li');
+      activeSectionLi.innerHTML = '<strong style="color: #28a745;">✅ Will be withdrawn:</strong>';
+      activeSectionLi.style.marginTop = '12px';
+      activeSectionLi.style.marginBottom = '8px';
+      activeSectionLi.style.listStyle = 'none';
+      previewList.appendChild(activeSectionLi);
+
+      familyData.active.forEach(member => {
+        const li = document.createElement('li');
+        const icon = member.type === 'Dependent' ? '👨‍👩‍👧' : '👷';
+        li.innerHTML = `${icon} ${escapeHtml(member.name)} <span style="color: #6c757d;">(${member.type})</span>`;
+        li.style.marginBottom = '6px';
+        li.style.marginLeft = '20px';
+        previewList.appendChild(li);
+      });
+    }
+
+    // ============================================================================
+    // WITHDRAWN FAMILY MEMBERS (Skipped)
+    // ============================================================================
+    if (hasWithdrawn) {
+      const withdrawnSectionLi = document.createElement('li');
+      withdrawnSectionLi.innerHTML = '<strong style="color: #856404;">⚠️ Skipped (already withdrawn):</strong>';
+      withdrawnSectionLi.style.marginTop = '12px';
+      withdrawnSectionLi.style.marginBottom = '8px';
+      withdrawnSectionLi.style.listStyle = 'none';
+      previewList.appendChild(withdrawnSectionLi);
+
+      familyData.withdrawn.forEach(member => {
+        const li = document.createElement('li');
+        const icon = member.type === 'Dependent' ? '👨‍👩‍👧' : '👷';
+        const dateStr = member.withdrawalDate ? 
+          new Date(member.withdrawalDate).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) : 
+          'Unknown date';
+        li.innerHTML = `❌ ${escapeHtml(member.name)} <span style="color: #6c757d;">(${member.type})</span> <span style="color: #856404;">- Withdrawn ${dateStr}</span>`;
+        li.style.marginBottom = '6px';
+        li.style.marginLeft = '20px';
+        li.style.color = '#856404';
+        previewList.appendChild(li);
+      });
+    }
+
+    // ============================================================================
+    // NO FAMILY MEMBERS
+    // ============================================================================
+    if (!hasActive && !hasWithdrawn) {
+      const noFamilyLi = document.createElement('li');
+      noFamilyLi.innerHTML = '<em style="color: #6c757d;">ℹ️ Principal is unaccompanied (no dependents or staff)</em>';
+      noFamilyLi.style.padding = '12px';
+      noFamilyLi.style.backgroundColor = '#f8f9fa';
+      noFamilyLi.style.borderRadius = '6px';
+      noFamilyLi.style.marginTop = '8px';
+      noFamilyLi.style.listStyle = 'none';
+      previewList.appendChild(noFamilyLi);
+    }
+
+    // ============================================================================
+    // TOTAL COUNT (only active members)
+    // ============================================================================
+    if (hasActive) {
+      const totalActive = familyData.active.length + 1; // +1 for principal
+      const totalLi = document.createElement('li');
+      totalLi.innerHTML = `<strong>Total: ${totalActive} person${totalActive > 1 ? 's' : ''} will be withdrawn</strong>`;
+      totalLi.style.marginTop = '16px';
+      totalLi.style.paddingTop = '12px';
+      totalLi.style.borderTop = '2px solid #dee2e6';
+      totalLi.style.color = '#dc3545';
+      totalLi.style.listStyle = 'none';
+      previewList.appendChild(totalLi);
+    }
+  }
+
+
+    function handleWithdrawal() {
+      const principalName = document.getElementById('principalSelect').value;
+      const departureDate = document.getElementById('familyDepartureDate').value;
+      const reason = document.getElementById('familyWithdrawalReason').value.trim();
+      const confirmChecked = document.getElementById('confirmWithdrawal').checked;
+
+      if (!principalName) {
+        showToast('Please select a principal', 'error');
+        return;
+      }
+
+      if (!departureDate) {
+        showToast('Please enter departure date', 'error');
+        return;
+      }
+
+      if (!reason) {
+        showToast('Please enter withdrawal reason', 'error');
+        return;
+      }
+
+      if (!confirmChecked) {
+        showToast('Please confirm withdrawal by checking the checkbox', 'error');
+        return;
+      }
+
+      showLoading('Withdrawing principal and family...');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          hideLoading();
+          
+          if (result.success) {
+            showToast('✅ Withdrawal successful!', 'success');
+            
+            setTimeout(function() {
+              google.script.host.close();
+            }, 3000);
+          } else {
+            showToast(result.message || 'Failed to withdraw family', 'error');
+          }
+        })
+        .withFailureHandler(function(error) {
+          hideLoading();
+          showToast('Error: ' + error.message, 'error');
+        })
+        .withdrawEntireFamily(principalName, departureDate, reason);
+    }
+
+    function showLoading(message) {
+      document.getElementById('loadingMessage').textContent = message || 'Processing...';
+      document.getElementById('loading').classList.add('show');
+    }
+
+    function hideLoading() {
+      document.getElementById('loading').classList.remove('show');
+    }
+
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      
+      toastMessage.textContent = message;
+      toast.className = 'toast ' + (type || 'success') + ' show';
+      
+      setTimeout(function() {
+        toast.classList.remove('show');
+      }, 5000);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
