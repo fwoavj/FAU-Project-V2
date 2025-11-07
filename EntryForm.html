@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      line-height: 1.6;
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .form-body {
+      padding: 32px;
+      max-height: calc(100vh - 250px);
+      overflow-y: auto;
+    }
+
+    .section-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+
+    .section-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    .section-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0;
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .icon-principal { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .icon-dependent { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
+    .icon-staff { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .form-group label.required::after {
+      content: "*";
+      color: #ef4444;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px 14px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      background: #ffffff;
+      color: #1f2937;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-group input:disabled,
+    .form-group input[readonly] {
+      background-color: #f9fafb;
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    .form-group select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 20px;
+      padding-right: 40px;
+    }
+
+    .field-help {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 6px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px;
+      background: #f0f9ff;
+      border-radius: 8px;
+      border: 1px solid #bae6fd;
+      margin: 16px 0;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #667eea;
+    }
+
+    .checkbox-group label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #0c4a6e;
+      cursor: pointer;
+      user-select: none;
+      margin: 0;
+    }
+
+    .upload-card {
+      border: 2px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      background: #f9fafb;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .upload-card:hover {
+      border-color: #667eea;
+      background: #f0f4ff;
+      transform: translateY(-2px);
+    }
+
+    .upload-card input[type="file"] {
+      display: none;
+    }
+
+    .upload-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+    }
+
+    .upload-text {
+      font-size: 14px;
+      color: #4b5563;
+      font-weight: 500;
+    }
+
+    .upload-subtext {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .file-selected {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #065f46;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-selected.show {
+      display: flex;
+    }
+
+    .driver-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #f3f4f6;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #4b5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-top: 8px;
+    }
+
+    .driver-link:hover {
+      background: #e5e7eb;
+      color: #1f2937;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      min-width: 140px;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #6b7280;
+      color: white;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .sticky-footer {
+      position: sticky;
+      bottom: 0;
+      background: white;
+      padding: 20px 32px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+      z-index: 100;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 12px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .form-group.invalid input,
+    .form-group.invalid select {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      z-index: 10000;
+      display: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      animation: slideIn 0.3s ease;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    .toast.success {
+      background: #10b981;
+      color: white;
+    }
+
+    .toast.error {
+      background: #ef4444;
+      color: white;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loading-overlay.show {
+      display: flex;
+    }
+
+    .loading-content {
+      text-align: center;
+      color: white;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .age-warning {
+      background: #fef3c7;
+      border: 1px solid #fbbf24;
+      color: #92400e;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .age-warning.show {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid,
+      .form-grid.cols-2,
+      .form-grid.cols-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .sticky-footer {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .action-bar {
+        width: 100%;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Personnel Entry Form</h1>
+    </div>
+
+    <form id="personnelForm">
+      <div class="form-body">
+        <!-- Principal Section -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-principal">👤</div>
+            <h3>Principal Information</h3>
+          </div>
+
+          <div class="form-grid cols-2">
+            <div class="form-group">
+              <label>Post/Station</label>
+              <input type="text" id="postStation" readonly>
+              <div class="field-help">Auto-fills when you select a principal</div>
+            </div>
+            <div class="form-group">
+              <label class="required">Select Principal</label>
+              <select id="principalSelect" required>
+                <option value="">Choose Principal...</option>
+              </select>
+              <div class="error-message">Please select a principal</div>
+            </div>
+          </div>
+
+          <div class="form-grid cols-2">
+            <div class="form-group">
+              <label class="required">Rank</label>
+              <select id="rank" required>
+                <option value="">Select Rank...</option>
+                <option value="Chief of Mission I">Chief of Mission I</option>
+                <option value="Chief of Mission II">Chief of Mission II</option>
+                <option value="Foreign Service Officer I">Foreign Service Officer I</option>
+                <option value="Foreign Service Officer II">Foreign Service Officer II</option>
+                <option value="Foreign Service Officer III">Foreign Service Officer III</option>
+                <option value="Foreign Service Officer IV">Foreign Service Officer IV</option>
+                <option value="Foreign Service Staff Officer I">Foreign Service Staff Officer I</option>
+                <option value="Foreign Service Staff Officer II">Foreign Service Staff Officer II</option>
+                <option value="Foreign Service Staff Officer III">Foreign Service Staff Officer III</option>
+                <option value="Foreign Service Staff Officer IV">Foreign Service Staff Officer IV</option>
+                <option value="Foreign Service Staff Employee I">Foreign Service Staff Employee I</option>
+                <option value="Foreign Service Staff Employee II">Foreign Service Staff Employee II</option>
+                <option value="Foreign Service Staff Employee III">Foreign Service Staff Employee III</option>
+                <option value="Foreign Service Staff Employee IV">Foreign Service Staff Employee IV</option>
+              </select>
+              <div class="error-message">Please select a rank</div>
+            </div>
+            <div class="form-group">
+              <label>Designation</label>
+              <input type="text" id="designation" placeholder="e.g., Consul General">
+            </div>
+          </div>
+
+          <div class="form-grid cols-3">
+            <div class="form-group">
+              <label class="required">Date of Birth</label>
+              <input type="text" id="dateOfBirth" readonly>
+              <div class="field-help">Auto-fills when you select a principal</div>
+            </div>
+            <div class="form-group">
+              <label>Age</label>
+              <input type="text" id="principalAge" readonly>
+              <div class="field-help">Auto-calculated</div>
+            </div>
+            <div class="form-group">
+              <label class="required">Sex</label>
+              <select id="principalSex" required>
+                <option value="">Select Sex</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+              <div class="error-message">Please select sex</div>
+            </div>
+          </div>
+
+          <div class="form-grid cols-2">
+            <div class="form-group">
+              <label class="required">Date of Assumption</label>
+              <input type="date" id="assumptionDate" required>
+              <div class="error-message">Please enter date of assumption</div>
+            </div>
+            <div class="form-group">
+              <label class="required">Passport No.</label>
+              <input type="text" id="principalPassport" required placeholder="e.g., P1234567">
+              <div class="error-message">Please enter passport number</div>
+            </div>
+          </div>
+
+          <div class="form-grid cols-2">
+            <div class="form-group">
+              <label class="required">Passport Expiration</label>
+              <input type="date" id="principalPassportExp" required>
+              <div class="error-message">Please enter passport expiration</div>
+            </div>
+            <div class="form-group">
+              <label>Upload Passport</label>
+              <div class="upload-card" onclick="document.getElementById('principalPassportFile').click()">
+                <input type="file" id="principalPassportFile" accept=".pdf,.jpg,.jpeg,.png">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">Click to upload passport</div>
+                <div class="upload-subtext">PDF, JPG, PNG (Max 10MB)</div>
+              </div>
+              <div class="file-selected" id="principalPassportSelected"></div>
+              <a href="#" class="driver-link" target="_blank" id="principalPassportDriver">📁 View Driver Folder</a>
+            </div>
+          </div>
+
+          <div class="form-grid cols-2">
+            <div class="form-group">
+              <label>Visa Number</label>
+              <input type="text" id="principalVisaNumber" placeholder="e.g., V123456789">
+            </div>
+            <div class="form-group">
+              <label>Visa Expiration</label>
+              <input type="date" id="principalVisaExp">
+            </div>
+          </div>
+
+          <div class="form-grid cols-2">
+            <div class="form-group">
+              <label>Diplomatic/Consular ID</label>
+              <input type="text" id="principalDipId" placeholder="e.g., D123456">
+            </div>
+            <div class="form-group">
+              <label>Diplomatic/Consular ID Expiration</label>
+              <input type="date" id="principalDipIdExp">
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Projected Date of Recall</label>
+              <input type="date" id="principalDepartureDate">
+              <div class="field-help">Actual or expected departure date from post</div>
+            </div>
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="soloParentCheckbox">
+            <label for="soloParentCheckbox">Principal is a Solo Parent</label>
+          </div>
+
+          <div class="form-group hidden" id="soloParentUploadSection">
+            <label>Upload Solo Parent Document</label>
+            <div class="upload-card" onclick="document.getElementById('soloParentFile').click()">
+              <input type="file" id="soloParentFile" accept=".pdf,.jpg,.jpeg,.png">
+              <div class="upload-icon">📄</div>
+              <div class="upload-text">Click to upload solo parent document</div>
+              <div class="upload-subtext">PDF, JPG, PNG (Max 10MB)</div>
+            </div>
+            <div class="file-selected" id="soloParentSelected"></div>
+            <a href="#" class="driver-link" target="_blank" id="soloParentDriver">📁 View Driver Folder</a>
+          </div>
+        </div>
+
+        <!-- Dependents Section -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-dependent">👨‍👩‍👧</div>
+            <h3>Dependent Information</h3>
+          </div>
+          <div id="dependentsContainer"></div>
+          <div class="action-bar">
+            <button type="button" class="btn btn-success" id="addDependentBtn">
+              + Add Dependent
+            </button>
+          </div>
+        </div>
+
+        <!-- Private Staff Section -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-staff">👷</div>
+            <h3>Private Staff Information</h3>
+          </div>
+          <div id="privateStaffContainer"></div>
+          <div class="action-bar">
+            <button type="button" class="btn btn-success" id="addStaffBtn">
+              + Add Private Staff
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sticky-footer">
+        <div></div>
+        <div class="action-bar">
+          <button type="button" class="btn btn-secondary" id="clearFormBtn">Clear Form</button>
+          <button type="submit" class="btn btn-primary">💾 Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <div id="loadingMessage">Processing...</div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <script>
+    let dependentCounter = 0;
+    let privateStaffCounter = 0;
+    let principalsList = [];
+    let formSubmissionInProgress = false;
+
+    const DRIVER_URL = 'https://drive.google.com/drive/folders/1XWnfhLgsFhIQS0T5Zp4pzqQMf5WX3bPW';
+
+    document.addEventListener('DOMContentLoaded', initializeForm);
+
+    function initializeForm() {
+      loadPrincipalsList();
+      setupEventListeners();
+      setupDriverLinks();
+    }
+
+    function setupDriverLinks() {
+      document.querySelectorAll('.driver-link').forEach(link => {
+        link.href = DRIVER_URL;
+      });
+    }
+
+    function setupEventListeners() {
+      document.getElementById('addDependentBtn').addEventListener('click', addDependent);
+      document.getElementById('addStaffBtn').addEventListener('click', addPrivateStaff);
+      document.getElementById('clearFormBtn').addEventListener('click', clearForm);
+      document.getElementById('personnelForm').addEventListener('submit', handleFormSubmit);
+      document.getElementById('principalSelect').addEventListener('change', handlePrincipalChange);
+      document.getElementById('soloParentCheckbox').addEventListener('change', handleSoloParentCheckbox);
+      
+      setupFileUpload('principalPassportFile', 'principalPassportSelected');
+      setupFileUpload('soloParentFile', 'soloParentSelected');
+    }
+
+    function setupFileUpload(inputId, selectedId) {
+      const input = document.getElementById(inputId);
+      const selected = document.getElementById(selectedId);
+      
+      if (input && selected) {
+        input.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            if (file.size > 10 * 1024 * 1024) {
+              showToast('File size must be less than 10MB', 'error');
+              input.value = '';
+              return;
+            }
+            
+            const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+            if (!validTypes.includes(file.type)) {
+              showToast('Only PDF, JPG, and PNG files are allowed', 'error');
+              input.value = '';
+              return;
+            }
+            
+            selected.textContent = `📎 ${file.name}`;
+            selected.classList.add('show');
+          } else {
+            selected.classList.remove('show');
+          }
+        });
+      }
+    }
+
+    function handleSoloParentCheckbox() {
+      const uploadSection = document.getElementById('soloParentUploadSection');
+      if (this.checked) {
+        uploadSection.classList.remove('hidden');
+      } else {
+        uploadSection.classList.add('hidden');
+        document.getElementById('soloParentFile').value = '';
+        document.getElementById('soloParentSelected').classList.remove('show');
+      }
+    }
+
+    function loadPrincipalsList() {
+      const select = document.getElementById('principalSelect');
+      
+      if (principalsList.length > 0) {
+        updatePrincipalDropdown(principalsList);
+        return;
+      }
+      
+      select.innerHTML = '<option value="">Loading Principals...</option>';
+
+      if (typeof google === 'undefined' || !google.script?.run) {
+        setTimeout(loadPrincipalsList, 500);
+        return;
+      }
+
+      google.script.run
+        .withSuccessHandler(updatePrincipalDropdown)
+        .withFailureHandler(error => {
+          console.error('Failed to load principals:', error);
+          select.innerHTML = '<option value="">Error loading principals</option>';
+          setTimeout(loadPrincipalsList, 2000);
+        })
+        .getPrincipalsList();
+    }
+
+    function updatePrincipalDropdown(principals) {
+      const select = document.getElementById('principalSelect');
+      principalsList = principals;
+
+      if (principals && principals.length > 0) {
+        const sortedPrincipals = principals.map((principal, originalIndex) => ({
+          ...principal,
+          originalIndex
+        })).sort((a, b) => a.fullName.localeCompare(b.fullName));
+
+        select.innerHTML = '<option value="">Choose Principal...</option>';
+        sortedPrincipals.forEach((principal) => {
+          const option = document.createElement('option');
+          option.value = principal.originalIndex;
+          option.textContent = principal.fullName;
+          select.appendChild(option);
+        });
+      } else {
+        select.innerHTML = '<option value="">No principals found</option>';
+        setTimeout(loadPrincipalsList, 2000);
+      }
+    }
+
+    function handlePrincipalChange() {
+      const selectedIndex = this.value;
+      
+      if (selectedIndex !== '' && principalsList[selectedIndex]) {
+        const selectedPrincipal = principalsList[selectedIndex];
+        
+        if (selectedPrincipal.postStation) {
+          const postStationField = document.getElementById('postStation');
+          postStationField.value = selectedPrincipal.postStation;
+        }
+        
+        if (selectedPrincipal.dateOfBirth) {
+          const dateField = document.getElementById('dateOfBirth');
+          const formattedDate = formatDateForDisplay(selectedPrincipal.dateOfBirth);
+          dateField.value = formattedDate;
+          
+          const age = calculateAgeFromString(selectedPrincipal.dateOfBirth);
+          if (age !== '') {
+            document.getElementById('principalAge').value = age;
+          }
+        }
+      } else {
+        document.getElementById('postStation').value = '';
+        document.getElementById('dateOfBirth').value = '';
+        document.getElementById('principalAge').value = '';
+      }
+    }
+
+    function addDependent() {
+      dependentCounter++;
+      const container = document.getElementById('dependentsContainer');
+      const dependentDiv = document.createElement('div');
+      dependentDiv.className = 'section-card';
+      dependentDiv.style.background = '#f0f9ff';
+      dependentDiv.innerHTML = createDependentHTML(dependentCounter);
+      
+      container.appendChild(dependentDiv);
+      setupDependentEventListeners(dependentDiv, dependentCounter);
+    }
+
+    function createDependentHTML(counter) {
+      return `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #bae6fd;">
+          <h4 style="margin: 0; color: #0c4a6e; font-size: 16px;">Dependent #${counter}</h4>
+          <button type="button" class="btn btn-danger remove-dependent">Remove</button>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label class="required">Last Name</label>
+            <input type="text" name="depLastName" required>
+            <div class="error-message">Last name is required</div>
+          </div>
+          <div class="form-group">
+            <label class="required">First Name</label>
+            <input type="text" name="depFirstName" required>
+            <div class="error-message">First name is required</div>
+          </div>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label>Middle Name</label>
+            <input type="text" name="depMiddleName">
+          </div>
+          <div class="form-group">
+            <label>Suffix</label>
+            <select name="depSuffix">
+              <option value="">Select suffix</option>
+              <option value="Jr.">Jr.</option>
+              <option value="Sr.">Sr.</option>
+              <option value="II">II</option>
+              <option value="III">III</option>
+              <option value="IV">IV</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid cols-3">
+          <div class="form-group">
+            <label class="required">Relationship</label>
+            <select name="depRelationship" required>
+              <option value="">Select relationship</option>
+              <option value="Spouse">Spouse</option>
+              <option value="Child">Child</option>
+              <option value="Stepchild">Stepchild</option>
+              <option value="Stepfather">Stepfather</option>
+              <option value="Stepmother">Stepmother</option>
+              <option value="Stepchild (minor)">Stepchild (minor)</option>
+              <option value="Minor Grandchild">Minor Grandchild</option>
+              <option value="Parent - Father">Parent - Father</option>
+              <option value="Parent - Mother">Parent - Mother</option>
+              <option value="Minor Sibling">Minor Sibling</option>
+              <option value="Adult Sibling (PWD)">Adult Sibling (PWD)</option>
+              <option value="Minor Niece">Minor Niece</option>
+              <option value="Minor Nephew">Minor Nephew</option>
+              <option value="Minor Ward">Minor Ward</option>
+              <option value="Father-in-law">Father-in-law</option>
+              <option value="Mother-in-law">Mother-in-law</option>
+            </select>
+            <div class="error-message">Please select relationship</div>
+          </div>
+          <div class="form-group">
+            <label class="required">Sex</label>
+            <select name="depSex" required>
+              <option value="">Select sex</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <div class="error-message">Please select sex</div>
+          </div>
+          <div class="form-group">
+            <label class="required">Date of Birth</label>
+            <input type="date" name="depDateOfBirth" required>
+            <div class="error-message">Please enter date of birth</div>
+          </div>
+        </div>
+
+        <div class="form-grid cols-3">
+          <div class="form-group">
+            <label>Age</label>
+            <input type="text" name="depAge" readonly>
+            <div class="field-help">Auto-calculated</div>
+          </div>
+          <div class="form-group">
+            <label>Turns 18 Date</label>
+            <input type="date" name="depTurns18" readonly>
+            <div class="field-help">Auto-calculated for minors</div>
+          </div>
+          <div class="form-group">
+            <label class="required">At Post</label>
+            <select name="depAtPost" required>
+              <option value="">Select status</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div class="error-message">Please select at post status</div>
+          </div>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label>Arrival Date</label>
+            <input type="date" name="depNoticeOfArrival">
+            <div class="field-help">Only fill if "At Post" is Yes</div>
+          </div>
+          <div class="form-group">
+            <label class="required">Receives Family Allowance</label>
+            <select name="depReceivesFamilyAllowance" required>
+              <option value="">Select status</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div class="error-message">Please select family allowance status</div>
+          </div>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label class="required">Passport No.</label>
+            <input type="text" name="depPassport" required placeholder="e.g., P1234567">
+            <div class="error-message">Please enter passport number</div>
+          </div>
+          <div class="form-group">
+            <label class="required">Passport Expiration</label>
+            <input type="date" name="depPassportExp" required>
+            <div class="error-message">Please enter passport expiration date</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Upload Passport</label>
+          <div class="upload-card" onclick="this.querySelector('input[type=file]').click()">
+            <input type="file" name="depPassportFile" accept=".pdf,.jpg,.jpeg,.png">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Click to upload passport</div>
+            <div class="upload-subtext">PDF, JPG, PNG (Max 10MB)</div>
+          </div>
+          <div class="file-selected"></div>
+          <a href="${DRIVER_URL}" class="driver-link" target="_blank">📁 View Driver Folder</a>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label>Visa Number</label>
+            <input type="text" name="depVisaNumber">
+          </div>
+          <div class="form-group">
+            <label>Visa Expiration</label>
+            <input type="date" name="depVisaExp">
+          </div>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label>Diplomatic/Consular ID</label>
+            <input type="text" name="depDipId">
+          </div>
+          <div class="form-group">
+            <label>Diplomatic/Consular ID Expiration</label>
+            <input type="date" name="depDipIdExp">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Projected Date of Recall</label>
+          <input type="date" name="depDepartureDate">
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label class="required">PWD Status</label>
+            <select name="depPwdStatus" required>
+              <option value="">Select PWD Status</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div class="error-message">Please select PWD status</div>
+          </div>
+        </div>
+
+        <div class="form-group hidden dep-pwd-upload">
+          <label>Upload PWD ID</label>
+          <div class="upload-card" onclick="this.querySelector('input[type=file]').click()">
+            <input type="file" name="depPwdFile" accept=".pdf,.jpg,.jpeg,.png">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Click to upload PWD ID</div>
+            <div class="upload-subtext">PDF, JPG, PNG (Max 10MB)</div>
+          </div>
+          <div class="file-selected"></div>
+          <a href="${DRIVER_URL}" class="driver-link" target="_blank">📁 View Driver Folder</a>
+        </div>
+
+        <div class="form-group">
+          <label>Upload Approval Fax</label>
+          <div class="upload-card" onclick="this.querySelector('input[type=file]').click()">
+            <input type="file" name="depApprovalFax" accept=".pdf,.jpg,.jpeg,.png">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Click to upload approval fax</div>
+            <div class="upload-subtext">PDF, JPG, PNG (Max 10MB)</div>
+          </div>
+          <div class="file-selected"></div>
+          <a href="${DRIVER_URL}" class="driver-link" target="_blank">📁 View Driver Folder</a>
+        </div>
+      `;
+    }
+
+    function setupDependentEventListeners(dependentDiv, counter) {
+      const removeBtn = dependentDiv.querySelector('.remove-dependent');
+      removeBtn?.addEventListener('click', () => {
+        dependentDiv.remove();
+      });
+
+      const dobInput = dependentDiv.querySelector('[name="depDateOfBirth"]');
+      const ageInput = dependentDiv.querySelector('[name="depAge"]');
+      const turns18Input = dependentDiv.querySelector('[name="depTurns18"]');
+      
+      dobInput?.addEventListener('change', () => {
+        const age = calculateAgeFromDate(dobInput.value);
+        if (ageInput) ageInput.value = age;
+        
+        if (turns18Input && dobInput.value) {
+          const dob = new Date(dobInput.value);
+          const turns18 = new Date(dob);
+          turns18.setFullYear(turns18.getFullYear() + 18);
+          turns18Input.value = turns18.toISOString().split('T')[0];
+        }
+      });
+
+      const pwdSelect = dependentDiv.querySelector('[name="depPwdStatus"]');
+      const pwdUpload = dependentDiv.querySelector('.dep-pwd-upload');
+      
+      pwdSelect?.addEventListener('change', () => {
+        if (pwdSelect.value === 'Yes') {
+          pwdUpload?.classList.remove('hidden');
+        } else {
+          pwdUpload?.classList.add('hidden');
+        }
+      });
+
+      dependentDiv.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          const fileSelected = this.closest('.form-group').querySelector('.file-selected');
+          
+          if (file) {
+            if (file.size > 10 * 1024 * 1024) {
+              showToast('File size must be less than 10MB', 'error');
+              this.value = '';
+              return;
+            }
+            
+            const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+            if (!validTypes.includes(file.type)) {
+              showToast('Only PDF, JPG, and PNG files are allowed', 'error');
+              this.value = '';
+              return;
+            }
+            
+            fileSelected.textContent = `📎 ${file.name}`;
+            fileSelected.classList.add('show');
+          } else {
+            fileSelected.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function addPrivateStaff() {
+      privateStaffCounter++;
+      const container = document.getElementById('privateStaffContainer');
+      const staffDiv = document.createElement('div');
+      staffDiv.className = 'section-card';
+      staffDiv.style.background = '#fef2f2';
+      staffDiv.innerHTML = createPrivateStaffHTML(privateStaffCounter);
+      
+      container.appendChild(staffDiv);
+      setupPrivateStaffEventListeners(staffDiv, privateStaffCounter);
+    }
+
+    function createPrivateStaffHTML(counter) {
+      return `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #fecaca;">
+          <h4 style="margin: 0; color: #7f1d1d; font-size: 16px;">Private Staff #${counter}</h4>
+          <button type="button" class="btn btn-danger remove-staff">Remove</button>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label class="required">Last Name</label>
+            <input type="text" name="staffLastName" required>
+            <div class="error-message">Last name is required</div>
+          </div>
+          <div class="form-group">
+            <label class="required">First Name</label>
+            <input type="text" name="staffFirstName" required>
+            <div class="error-message">First name is required</div>
+          </div>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label>Middle Name</label>
+            <input type="text" name="staffMiddleName">
+          </div>
+          <div class="form-group">
+            <label>Suffix</label>
+            <select name="staffSuffix">
+              <option value="">Select suffix</option>
+              <option value="Jr.">Jr.</option>
+              <option value="Sr.">Sr.</option>
+              <option value="II">II</option>
+              <option value="III">III</option>
+              <option value="IV">IV</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid cols-3">
+          <div class="form-group">
+            <label class="required">Sex</label>
+            <select name="staffSex" required>
+              <option value="">Select sex</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <div class="error-message">Please select sex</div>
+          </div>
+          <div class="form-group">
+            <label class="required">Date of Birth</label>
+            <input type="date" name="staffDateOfBirth" required>
+            <div class="error-message">Please enter date of birth</div>
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+            <input type="text" name="staffAge" readonly>
+            <div class="field-help">Auto-calculated</div>
+          </div>
+        </div>
+
+        <div class="age-warning staff-age-warning">
+          ⚠️ Warning: Staff members must be at least 24 years old. You cannot submit this form with staff under 24.
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label class="required">At Post</label>
+            <select name="staffAtPost" required>
+              <option value="">Select status</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div class="error-message">Please select at post status</div>
+          </div>
+          <div class="form-group">
+            <label>Arrival Date</label>
+            <input type="date" name="staffArrivalDate">
+            <div class="field-help">Only fill if "At Post" is Yes</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Emergency Contact</label>
+          <input type="text" name="staffEmergencyContact" placeholder="Full name - Contact number">
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label class="required">Passport No.</label>
+            <input type="text" name="staffPassport" required placeholder="e.g., P1234567">
+            <div class="error-message">Please enter passport number</div>
+          </div>
+          <div class="form-group">
+            <label class="required">Passport Expiration</label>
+            <input type="date" name="staffPassportExp" required>
+            <div class="error-message">Please enter passport expiration date</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Upload Passport</label>
+          <div class="upload-card" onclick="this.querySelector('input[type=file]').click()">
+            <input type="file" name="staffPassportFile" accept=".pdf,.jpg,.jpeg,.png">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Click to upload passport</div>
+            <div class="upload-subtext">PDF, JPG, PNG (Max 10MB)</div>
+          </div>
+          <div class="file-selected"></div>
+          <a href="${DRIVER_URL}" class="driver-link" target="_blank">📁 View Driver Folder</a>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label>Visa Number</label>
+            <input type="text" name="staffVisaNumber">
+          </div>
+          <div class="form-group">
+            <label>Visa Expiration</label>
+            <input type="date" name="staffVisaExp">
+          </div>
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label>Diplomatic/Consular ID</label>
+            <input type="text" name="staffDipId">
+          </div>
+          <div class="form-group">
+            <label>Diplomatic/Consular ID Expiration</label>
+            <input type="date" name="staffDipIdExp">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Projected Date of Recall</label>
+          <input type="date" name="staffDepartureDate">
+        </div>
+
+        <div class="form-grid cols-2">
+          <div class="form-group">
+            <label class="required">PWD Status</label>
+            <select name="staffPwdStatus" required>
+              <option value="">Select PWD Status</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div class="error-message">Please select PWD status</div>
+          </div>
+        </div>
+
+        <div class="form-group hidden staff-pwd-upload">
+          <label>Upload PWD ID</label>
+          <div class="upload-card" onclick="this.querySelector('input[type=file]').click()">
+            <input type="file" name="staffPwdFile" accept=".pdf,.jpg,.jpeg,.png">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Click to upload PWD ID</div>
+            <div class="upload-subtext">PDF, JPG, PNG (Max 10MB)</div>
+          </div>
+          <div class="file-selected"></div>
+          <a href="${DRIVER_URL}" class="driver-link" target="_blank">📁 View Driver Folder</a>
+        </div>
+      `;
+    }
+
+    function setupPrivateStaffEventListeners(staffDiv, counter) {
+      const removeBtn = staffDiv.querySelector('.remove-staff');
+      removeBtn?.addEventListener('click', () => {
+        staffDiv.remove();
+      });
+
+      const dobInput = staffDiv.querySelector('[name="staffDateOfBirth"]');
+      const ageInput = staffDiv.querySelector('[name="staffAge"]');
+      const ageWarning = staffDiv.querySelector('.staff-age-warning');
+      
+      dobInput?.addEventListener('change', () => {
+        const age = calculateAgeFromDate(dobInput.value);
+        if (ageInput) ageInput.value = age;
+        
+        if (age && parseInt(age) < 24) {
+          ageWarning?.classList.add('show');
+          staffDiv.dataset.ageValid = 'false';
+        } else {
+          ageWarning?.classList.remove('show');
+          staffDiv.dataset.ageValid = 'true';
+        }
+      });
+
+      const pwdSelect = staffDiv.querySelector('[name="staffPwdStatus"]');
+      const pwdUpload = staffDiv.querySelector('.staff-pwd-upload');
+      
+      pwdSelect?.addEventListener('change', () => {
+        if (pwdSelect.value === 'Yes') {
+          pwdUpload?.classList.remove('hidden');
+        } else {
+          pwdUpload?.classList.add('hidden');
+        }
+      });
+
+      staffDiv.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          const fileSelected = this.closest('.form-group').querySelector('.file-selected');
+          
+          if (file) {
+            if (file.size > 10 * 1024 * 1024) {
+              showToast('File size must be less than 10MB', 'error');
+              this.value = '';
+              return;
+            }
+            
+            const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+            if (!validTypes.includes(file.type)) {
+              showToast('Only PDF, JPG, and PNG files are allowed', 'error');
+              this.value = '';
+              return;
+            }
+            
+            fileSelected.textContent = `📎 ${file.name}`;
+            fileSelected.classList.add('show');
+          } else {
+            fileSelected.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      if (formSubmissionInProgress) {
+        showToast('Form submission already in progress. Please wait.', 'error');
+        return;
+      }
+
+      if (!validateForm()) {
+        return;
+      }
+
+      const submitBtn = document.querySelector('button[type="submit"]');
+      const originalContent = submitBtn.innerHTML;
+      
+      try {
+        formSubmissionInProgress = true;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<div class="spinner" style="width: 16px; height: 16px; border-width: 2px;"></div> Submitting...';
+        showLoading('Preparing submission...');
+
+        const formData = await collectFormData();
+        
+        updateLoading('Saving to database...');
+
+        google.script.run
+          .withSuccessHandler(result => {
+            resetFormSubmissionState(submitBtn, originalContent);
+            hideLoading();
+            
+            if (result && result.success) {
+              clearForm();
+              showToast(result.message || 'Personnel record saved successfully!', 'success');
+            } else {
+              showToast(result?.message || 'Failed to save personnel record', 'error');
+            }
+          })
+          .withFailureHandler(error => {
+            resetFormSubmissionState(submitBtn, originalContent);
+            hideLoading();
+            showToast('Server error: ' + error.toString(), 'error');
+          })
+          .savePersonnelData(formData);
+          
+      } catch (error) {
+        resetFormSubmissionState(submitBtn, originalContent);
+        hideLoading();
+        showToast('Error: ' + error.toString(), 'error');
+      }
+    }
+
+    function validateForm() {
+      let isValid = true;
+      
+      const principalSelect = document.getElementById('principalSelect');
+      if (!principalSelect.value) {
+        showToast('Please select a principal', 'error');
+        principalSelect.focus();
+        return false;
+      }
+
+      const staffSections = document.querySelectorAll('.section-card [name="staffDateOfBirth"]');
+      for (let staffDob of staffSections) {
+        const staffCard = staffDob.closest('.section-card');
+        if (staffCard.dataset.ageValid === 'false') {
+          showToast('All staff members must be at least 24 years old', 'error');
+          staffDob.focus();
+          return false;
+        }
+      }
+
+      return isValid;
+    }
+
+    async function collectFormData() {
+      const selectedIndex = document.getElementById('principalSelect').value;
+      const selectedPrincipal = principalsList[selectedIndex];
+
+      const formData = {
+        fullName: selectedPrincipal.fullName || '',
+        postStation: document.getElementById('postStation')?.value?.trim() || '',
+        rank: document.getElementById('rank')?.value?.trim() || '',
+        designation: document.getElementById('designation')?.value?.trim() || '',
+        dateOfBirth: document.getElementById('dateOfBirth')?.value || '',
+        sex: document.getElementById('principalSex')?.value || '',
+        assumptionDate: document.getElementById('assumptionDate')?.value || '',
+        principalPassport: document.getElementById('principalPassport')?.value?.trim() || '',
+        principalPassportExp: document.getElementById('principalPassportExp')?.value || '',
+        principalPassportFile: null,
+        principalVisaNumber: document.getElementById('principalVisaNumber')?.value?.trim() || '',
+        principalVisaExp: document.getElementById('principalVisaExp')?.value || '',
+        principalDipId: document.getElementById('principalDipId')?.value?.trim() || '',
+        principalDipIdExp: document.getElementById('principalDipIdExp')?.value || '',
+        principalDepartureDate: document.getElementById('principalDepartureDate')?.value || '',
+        soloParent: document.getElementById('soloParentCheckbox')?.checked ? 'Yes' : 'No',
+        soloParentFile: null,
+        dependents: [],
+        privateStaff: []
+      };
+
+      const principalPassportFile = document.getElementById('principalPassportFile').files[0];
+      if (principalPassportFile) {
+        formData.principalPassportFile = {
+          name: principalPassportFile.name,
+          data: await fileToBase64(principalPassportFile),
+          mimeType: principalPassportFile.type,
+          size: principalPassportFile.size
+        };
+      }
+
+      if (formData.soloParent === 'Yes') {
+        const soloParentFile = document.getElementById('soloParentFile').files[0];
+        if (soloParentFile) {
+          formData.soloParentFile = {
+            name: soloParentFile.name,
+            data: await fileToBase64(soloParentFile),
+            mimeType: soloParentFile.type,
+            size: soloParentFile.size
+          };
+        }
+      }
+
+      const dependentSections = document.querySelectorAll('#dependentsContainer .section-card');
+      for (let section of dependentSections) {
+        const dependent = {
+          lastName: section.querySelector('[name="depLastName"]')?.value?.trim() || '',
+          firstName: section.querySelector('[name="depFirstName"]')?.value?.trim() || '',
+          middleName: section.querySelector('[name="depMiddleName"]')?.value?.trim() || '',
+          suffix: section.querySelector('[name="depSuffix"]')?.value || '',
+          relationship: section.querySelector('[name="depRelationship"]')?.value || '',
+          sex: section.querySelector('[name="depSex"]')?.value || '',
+          dateOfBirth: section.querySelector('[name="depDateOfBirth"]')?.value || '',
+          turns18: section.querySelector('[name="depTurns18"]')?.value || '',
+          atPost: section.querySelector('[name="depAtPost"]')?.value || '',
+          noticeOfArrivalDate: section.querySelector('[name="depNoticeOfArrival"]')?.value || '',
+          receivesFamilyAllowance: section.querySelector('[name="depReceivesFamilyAllowance"]')?.value || '',
+          passport: section.querySelector('[name="depPassport"]')?.value?.trim() || '',
+          passportExp: section.querySelector('[name="depPassportExp"]')?.value || '',
+          passportFile: null,
+          visaNumber: section.querySelector('[name="depVisaNumber"]')?.value?.trim() || '',
+          visaExp: section.querySelector('[name="depVisaExp"]')?.value || '',
+          dipId: section.querySelector('[name="depDipId"]')?.value?.trim() || '',
+          dipIdExp: section.querySelector('[name="depDipIdExp"]')?.value || '',
+          departureDate: section.querySelector('[name="depDepartureDate"]')?.value || '',
+          pwdStatus: section.querySelector('[name="depPwdStatus"]')?.value || 'No',
+          pwdFile: null,
+          approvalFaxFile: null
+        };
+
+        const passportFile = section.querySelector('[name="depPassportFile"]').files[0];
+        if (passportFile) {
+          dependent.passportFile = {
+            name: passportFile.name,
+            data: await fileToBase64(passportFile),
+            mimeType: passportFile.type,
+            size: passportFile.size
+          };
+        }
+
+        if (dependent.pwdStatus === 'Yes') {
+          const pwdFile = section.querySelector('[name="depPwdFile"]').files[0];
+          if (pwdFile) {
+            dependent.pwdFile = {
+              name: pwdFile.name,
+              data: await fileToBase64(pwdFile),
+              mimeType: pwdFile.type,
+              size: pwdFile.size
+            };
+          }
+        }
+
+        const approvalFaxFile = section.querySelector('[name="depApprovalFax"]').files[0];
+        if (approvalFaxFile) {
+          dependent.approvalFaxFile = {
+            name: approvalFaxFile.name,
+            data: await fileToBase64(approvalFaxFile),
+            mimeType: approvalFaxFile.type,
+            size: approvalFaxFile.size
+          };
+        }
+
+        if (dependent.lastName && dependent.firstName) {
+          formData.dependents.push(dependent);
+        }
+      }
+
+      const staffSections = document.querySelectorAll('#privateStaffContainer .section-card');
+      for (let section of staffSections) {
+        const staff = {
+          lastName: section.querySelector('[name="staffLastName"]')?.value?.trim() || '',
+          firstName: section.querySelector('[name="staffFirstName"]')?.value?.trim() || '',
+          middleName: section.querySelector('[name="staffMiddleName"]')?.value?.trim() || '',
+          suffix: section.querySelector('[name="staffSuffix"]')?.value || '',
+          sex: section.querySelector('[name="staffSex"]')?.value || '',
+          dateOfBirth: section.querySelector('[name="staffDateOfBirth"]')?.value || '',
+          atPost: section.querySelector('[name="staffAtPost"]')?.value || '',
+          arrivalDate: section.querySelector('[name="staffArrivalDate"]')?.value || '',
+          passport: section.querySelector('[name="staffPassport"]')?.value?.trim() || '',
+          passportExp: section.querySelector('[name="staffPassportExp"]')?.value || '',
+          passportFile: null,
+          visaNumber: section.querySelector('[name="staffVisaNumber"]')?.value?.trim() || '',
+          visaExp: section.querySelector('[name="staffVisaExp"]')?.value || '',
+          dipId: section.querySelector('[name="staffDipId"]')?.value?.trim() || '',
+          dipIdExp: section.querySelector('[name="staffDipIdExp"]')?.value || '',
+          departureDate: section.querySelector('[name="staffDepartureDate"]')?.value || '',
+          pwdStatus: section.querySelector('[name="staffPwdStatus"]')?.value || 'No',
+          pwdFile: null,
+          emergencyContact: section.querySelector('[name="staffEmergencyContact"]')?.value?.trim() || ''
+        };
+
+        const passportFile = section.querySelector('[name="staffPassportFile"]').files[0];
+        if (passportFile) {
+          staff.passportFile = {
+            name: passportFile.name,
+            data: await fileToBase64(passportFile),
+            mimeType: passportFile.type,
+            size: passportFile.size
+          };
+        }
+
+        if (staff.pwdStatus === 'Yes') {
+          const pwdFile = section.querySelector('[name="staffPwdFile"]').files[0];
+          if (pwdFile) {
+            staff.pwdFile = {
+              name: pwdFile.name,
+              data: await fileToBase64(pwdFile),
+              mimeType: pwdFile.type,
+              size: pwdFile.size
+            };
+          }
+        }
+
+        if (staff.lastName && staff.firstName) {
+          formData.privateStaff.push(staff);
+        }
+      }
+
+      return formData;
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64String = reader.result.split(',')[1];
+          resolve(base64String);
+        };
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function calculateAgeFromDate(dateValue) {
+      if (!dateValue) return '';
+      
+      try {
+        const birthDate = new Date(dateValue);
+        if (isNaN(birthDate.getTime())) return '';
+        
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        
+        return age >= 0 ? age.toString() : '';
+      } catch (error) {
+        return '';
+      }
+    }
+
+    function calculateAgeFromString(dateString) {
+      return calculateAgeFromDate(dateString);
+    }
+
+    function formatDateForDisplay(dateValue) {
+      if (!dateValue) return '';
+      
+      try {
+        const date = new Date(dateValue);
+        if (isNaN(date.getTime())) return dateValue;
+        
+        return date.toISOString().split('T')[0];
+      } catch (error) {
+        return dateValue;
+      }
+    }
+
+    function resetFormSubmissionState(submitBtn, originalContent) {
+      formSubmissionInProgress = false;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalContent;
+    }
+
+    function showLoading(message) {
+      const overlay = document.getElementById('loadingOverlay');
+      const messageEl = document.getElementById('loadingMessage');
+      messageEl.textContent = message || 'Processing...';
+      overlay.classList.add('show');
+    }
+
+    function updateLoading(message) {
+      const messageEl = document.getElementById('loadingMessage');
+      if (messageEl) {
+        messageEl.textContent = message;
+      }
+    }
+
+    function hideLoading() {
+      document.getElementById('loadingOverlay').classList.remove('show');
+    }
+
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      toastMessage.textContent = message;
+      toast.className = `toast ${type || 'success'} show`;
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 5000);
+    }
+
+    function clearForm() {
+      document.getElementById('personnelForm').reset();
+      document.getElementById('dependentsContainer').innerHTML = '';
+      document.getElementById('privateStaffContainer').innerHTML = '';
+      dependentCounter = 0;
+      privateStaffCounter = 0;
+      document.getElementById('soloParentUploadSection').classList.add('hidden');
+      
+      document.querySelectorAll('.file-selected').forEach(el => el.classList.remove('show'));
+      document.querySelectorAll('.form-group.invalid').forEach(el => el.classList.remove('invalid'));
+      document.querySelectorAll('.error-message.show').forEach(el => el.classList.remove('show'));
+    }
+  </script>
+</body>
+</html>
