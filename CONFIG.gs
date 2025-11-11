@@ -1,5 +1,5 @@
 // ============================================================================
-// UNIFIED CONFIGURATION - Single Source of Truth
+// UNIFIED CONFIGURATION - Single Source
 // ============================================================================
 
 const SYSTEM_CONFIG = {
@@ -7,7 +7,7 @@ const SYSTEM_CONFIG = {
   // ==================== SHEET NAMES ====================
   SHEETS: {
     PERSONNEL_TRACKING: 'Personnel Tracking',
-    ATTENDANCE_LOG: 'Attendance Log for Dependent & Staff',
+    ATTENDANCE_LOG: 'Status of Residency for Dependent & Staff',
     ARCHIVED_WITHDRAWALS: 'Archived Withdrawals',
     PRINCIPALS_LIST: 'Principals List',
     PRINCIPAL_DEPARTURE_LOG: 'Principal Departure Log',
@@ -16,7 +16,7 @@ const SYSTEM_CONFIG = {
 
   // ==================== COLUMN MAPPINGS ====================
   COLUMNS: {
-    // ===== PRINCIPAL COLUMNS (A-T, 1-20) =====
+    // ===== PRINCIPAL COLUMNS (A-U, 1-21) =====
     PRINCIPAL: {
       POST_STATION: 1,              // A
       FULL_NAME: 2,                 // B
@@ -28,14 +28,14 @@ const SYSTEM_CONFIG = {
       ASSUMPTION_DATE: 8,           // H
       PASSPORT_NUMBER: 9,           // I
       PASSPORT_EXPIRATION: 10,      // J
-      PASSPORT_URL: 11,             // K - NEW
+      PASSPORT_URL: 11,             // K
       VISA_NUMBER: 12,              // L
       VISA_EXPIRATION: 13,          // M
       DIPLOMATIC_ID: 14,            // N
       DIPLOMATIC_ID_EXP: 15,        // O
       DEPARTURE_DATE: 16,           // P
-      SOLO_PARENT: 17,              // Q - NEW
-      SOLO_PARENT_URL: 18,          // R - NEW
+      SOLO_PARENT: 17,              // Q
+      SOLO_PARENT_URL: 18,          // R
       EXTENDED: 19,                 // S
       CURRENT_DEPARTURE_DATE: 20,   // T
       EXTENSION_DETAILS: 21,        // U
@@ -65,7 +65,7 @@ const SYSTEM_CONFIG = {
       }
     },
 
-    // ===== DEPENDENT COLUMNS (V-AS, 22-45) =====
+    // ===== DEPENDENT COLUMNS (V-AR, 22-44) =====
     DEPENDENT: {
       FULL_NAME: 22,                // V
       RELATIONSHIP: 23,             // W
@@ -78,14 +78,14 @@ const SYSTEM_CONFIG = {
       FAMILY_ALLOWANCE: 30,         // AD
       PASSPORT_NUMBER: 31,          // AE
       PASSPORT_EXPIRATION: 32,      // AF
-      PASSPORT_URL: 33,             // AG - NEW
+      PASSPORT_URL: 33,             // AG
       VISA_NUMBER: 34,              // AH
       VISA_EXPIRATION: 35,          // AI
       DIPLOMATIC_ID: 36,            // AJ
       DIPLOMATIC_ID_EXP: 37,        // AK
       DEPARTURE_DATE: 38,           // AL
       PWD_STATUS: 39,               // AM
-      PWD_URL: 40,                  // AN - NEW
+      PWD_URL: 40,                  // AN
       APPROVAL_FAX_URL: 41,         // AO
       EXTENDED: 42,                 // AP
       CURRENT_DEPARTURE_DATE: 43,   // AQ
@@ -118,50 +118,51 @@ const SYSTEM_CONFIG = {
       }
     },
 
-    // ===== STAFF COLUMNS (AT-BM, 46-65) =====
+    // ===== STAFF COLUMNS (AS-BL, 45-64) =====
+    // ===== THIS BLOCK HAS BEEN UPDATED =====
     STAFF: {
-      FULL_NAME: 46,                // AT
-      SEX: 47,                      // AU
-      DATE_OF_BIRTH: 48,            // AV
-      AGE: 49,                      // AW
-      AT_POST: 50,                  // AX
-      ARRIVAL_DATE: 51,             // AY
-      PASSPORT_NUMBER: 52,          // AZ
-      PASSPORT_EXPIRATION: 53,      // BA
-      PASSPORT_URL: 54,             // BB - NEW
-      VISA_NUMBER: 55,              // BC
-      VISA_EXPIRATION: 56,          // BD
-      DIPLOMATIC_ID: 57,            // BE
-      DIPLOMATIC_ID_EXP: 58,        // BF
-      DEPARTURE_DATE: 59,           // BG
-      PWD_STATUS: 60,               // BH
-      PWD_URL: 61,                  // BI - NEW
-      EMERGENCY_CONTACT: 62,        // BJ
-      EXTENDED: 63,                 // BK
-      CURRENT_DEPARTURE_DATE: 64,   // BL
-      EXTENSION_DETAILS: 65,        // BM
+      FULL_NAME: 45,                // AS
+      SEX: 46,                      // AT
+      DATE_OF_BIRTH: 47,            // AU
+      AGE: 48,                      // AV
+      AT_POST: 49,                  // AW
+      ARRIVAL_DATE: 50,             // AX
+      PASSPORT_NUMBER: 51,          // AY
+      PASSPORT_EXPIRATION: 52,      // AZ
+      PASSPORT_URL: 53,             // BA
+      VISA_NUMBER: 54,              // BB
+      VISA_EXPIRATION: 55,          // BC
+      DIPLOMATIC_ID: 56,            // BD
+      DIPLOMATIC_ID_EXP: 57,        // BE
+      DEPARTURE_DATE: 58,           // BF
+      PWD_STATUS: 59,               // BG
+      PWD_URL: 60,                  // BH
+      EMERGENCY_CONTACT: 61,        // BI
+      EXTENDED: 62,                 // BJ
+      CURRENT_DEPARTURE_DATE: 63,   // BK
+      EXTENSION_DETAILS: 64,        // BL
       
       _INDICES: {
-        FULL_NAME: 45,
-        SEX: 46,
-        DATE_OF_BIRTH: 47,
-        AGE: 48,
-        AT_POST: 49,
-        ARRIVAL_DATE: 50,
-        PASSPORT_NUMBER: 51,
-        PASSPORT_EXPIRATION: 52,
-        PASSPORT_URL: 53,
-        VISA_NUMBER: 54,
-        VISA_EXPIRATION: 55,
-        DIPLOMATIC_ID: 56,
-        DIPLOMATIC_ID_EXP: 57,
-        DEPARTURE_DATE: 58,
-        PWD_STATUS: 59,
-        PWD_URL: 60,
-        EMERGENCY_CONTACT: 61,
-        EXTENDED: 62,
-        CURRENT_DEPARTURE_DATE: 63,
-        EXTENSION_DETAILS: 64
+        FULL_NAME: 44,
+        SEX: 45,
+        DATE_OF_BIRTH: 46,
+        AGE: 47,
+        AT_POST: 48,
+        ARRIVAL_DATE: 49,
+        PASSPORT_NUMBER: 50,
+        PASSPORT_EXPIRATION: 51,
+        PASSPORT_URL: 52,
+        VISA_NUMBER: 53,
+        VISA_EXPIRATION: 54,
+        DIPLOMATIC_ID: 55,
+        DIPLOMATIC_ID_EXP: 56,
+        DEPARTURE_DATE: 57,
+        PWD_STATUS: 58,
+        PWD_URL: 59,
+        EMERGENCY_CONTACT: 60,
+        EXTENDED: 61,
+        CURRENT_DEPARTURE_DATE: 62,
+        EXTENSION_DETAILS: 63
       }
     }
   },
@@ -175,7 +176,7 @@ const SYSTEM_CONFIG = {
     MAX_QUARTERS: 24,
     GRACE_PERIOD_DAYS: 1,
     AUTO_ARCHIVE_MISSED: true,
-    AUTO_ARCHIVE_REASON: 'Auto-archived: Missed attendance window',
+    AUTO_ARCHIVE_REASON: 'Auto-archived: Missed status of residency window',
     STATUS: {
       AT_POST: 'At Post',
       NOT_AT_POST: 'Not At Post',
@@ -210,9 +211,18 @@ const SYSTEM_CONFIG = {
 
   // ==================== GOOGLE DRIVE ====================
   DRIVE: {
-    FOLDER_ID: '1XWnfhLgsFhIQS0T5Zp4pzqQMf5WX3bPW',
+    FOLDER_ID: '1XWnfhLgsFhIQS0T5Zp4pzqQMf5WX3bPW', // This is your main folder
     FILE_NAME_FORMAT: '{name}_{timestamp}_{originalName}',
-    DRIVER_URL: 'https://drive.google.com/drive/folders/1XWnfhLgsFhIQS0T5Zp4pzqQMf5WX3bPW'
+    DRIVER_URL: 'https://drive.google.com/drive/folders/1XWnfhLgsFhIQS0T5Zp4pzqQMf5WX3bPW',
+    
+    // ===== PASTE YOUR FOLDER IDs HERE =====
+    SUBFOLDERS: {
+      PRINCIPAL_PASSPORTS: '1__ZQGnEUxgb0CW0rxDQWqiZD_fFQUEEB',
+      DEPENDENT_PASSPORTS: '1evjMrXbmJtAglxvz5f0J_yLYVLc67K66', // This will also be used for Staff Passports
+      PWD: '1zq4LM6C2M9Y2Hvodh9H6fuVsvmGcfLOq',
+      SOLO_PARENT: '1BQv0anESbufcbKUjwZ_7HR2Bk_lPSPPn',
+      APPROVAL_FAX: '1XWnfhLgsFhIQS0T5Zp4pzqQMf5WX3bPW'
+    }
   },
 
   // ==================== RELATIONSHIP OPTIONS ====================
@@ -238,7 +248,7 @@ const SYSTEM_CONFIG = {
   // ==================== UI SETTINGS ====================
   UI: {
     MODAL_WIDTH: 900,
-    MODAL_HEIGHT: 700,
+    MODAL_HEIGHT: 900,
     COLORS: {
       PRINCIPAL: '#a4c2f4',
       DEPENDENT: '#93CCEA',
@@ -253,6 +263,7 @@ const SYSTEM_CONFIG = {
     DATETIME_FORMAT: 'MMM dd, yyyy HH:mm:ss'
   },
 
+  // ==================== SECURITY ====================
   SECURITY: {
     AUDIT_ENABLED: true,
     AUDIT_RETENTION_DAYS: 730,
@@ -263,13 +274,17 @@ const SYSTEM_CONFIG = {
     SESSION_TIMEOUT_MINUTES: 30
   },
 
+  // ==================== PERFORMANCE ====================
   PERFORMANCE: {
     BATCH_SIZE: 50,
     MAX_SEARCH_ROWS: 50,
-    CACHE_DURATION: 300
+    CACHE_DURATION: 300 // 5 minutes
   }
 };
 
+// ============================================================================
+// CONSTANT ALIASES (for backward compatibility, e.g. in attendanceTracker.gs)
+// ============================================================================
 const CONFIG_COLUMNS = {
   COL_PRINCIPAL_POST: SYSTEM_CONFIG.COLUMNS.PRINCIPAL.POST_STATION,
   COL_PRINCIPAL_NAME: SYSTEM_CONFIG.COLUMNS.PRINCIPAL.FULL_NAME,
@@ -317,6 +332,7 @@ const CONFIG_COLUMNS = {
   COL_DEPENDENT_CURRENT_DEPARTURE: SYSTEM_CONFIG.COLUMNS.DEPENDENT.CURRENT_DEPARTURE_DATE,
   COL_DEPENDENT_EXTENSION_DETAILS: SYSTEM_CONFIG.COLUMNS.DEPENDENT.EXTENSION_DETAILS,
   
+  // ===== ALIASES UPDATED FOR STAFF (AS-BL) =====
   COL_STAFF_NAME: SYSTEM_CONFIG.COLUMNS.STAFF.FULL_NAME,
   COL_STAFF_SEX: SYSTEM_CONFIG.COLUMNS.STAFF.SEX,
   COL_STAFF_DOB: SYSTEM_CONFIG.COLUMNS.STAFF.DATE_OF_BIRTH,
@@ -340,7 +356,6 @@ const CONFIG_COLUMNS = {
 };
 
 const COLUMN_CONFIG = CONFIG_COLUMNS;
-
 const CONFIG = {
   ATTENDANCE_CYCLE_DAYS: SYSTEM_CONFIG.ATTENDANCE.CYCLE_DAYS,
   WINDOW_DURATION_DAYS: SYSTEM_CONFIG.ATTENDANCE.WINDOW_DURATION_DAYS,
@@ -359,7 +374,6 @@ const CONFIG = {
   STATUS_ACTIVE: SYSTEM_CONFIG.ATTENDANCE.STATUS.ACTIVE,
   STATUS_WITHDRAWN: SYSTEM_CONFIG.ATTENDANCE.STATUS.WITHDRAWN
 };
-
 const CALCULATED = {
   WINDOW_START_DAY: SYSTEM_CONFIG.ATTENDANCE.WINDOW_START_DAY,
   WINDOW_END_DAY: SYSTEM_CONFIG.ATTENDANCE.WINDOW_END_DAY
