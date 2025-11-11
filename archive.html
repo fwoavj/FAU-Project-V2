@@ -347,7 +347,7 @@
       <div class="info-banner">
         <div class="info-banner-icon">ℹ️</div>
         <div class="info-banner-text">
-          <strong>Archive Policy:</strong> Withdrawn pairs are automatically removed from active tracking.
+          <strong>Archive Policy:</strong> Withdrawn Principal-Household Members are automatically removed from active tracking.
         </div>
       </div>
 
@@ -368,7 +368,7 @@
         <table id="archive-table" class="archive-table">
           <thead>
             <tr>
-              <th style="width: 30%;">Name (Principal - Dependent or Staff)</th>
+              <th style="width: 30%;">Name (Principal-Household Member)</th>
               <th style="width: 10%;">Quarter</th>
               <th style="width: 30%;">Withdrawal Reason</th>
               <th style="width: 15%;">Withdrawal Date</th>
@@ -381,7 +381,7 @@
         </table>
         <div id="empty-state" class="empty-state hidden">
           <h3>📂 No archived records</h3>
-          <p>Withdrawn pairs will appear here after 5 days.</p>
+          <p>Withdrawn Principal-Household Members will appear here after 5 days.</p>
         </div>
       </div>
     </div>
@@ -524,7 +524,7 @@
             emptyState.querySelector('p').textContent = `No matches for "${this.searchTerm}". Try a different search term.`;
           } else {
             emptyState.querySelector('h3').textContent = '📂 No archived records';
-            emptyState.querySelector('p').textContent = 'Withdrawn pairs will appear here after 5 days.';
+            emptyState.querySelector('p').textContent = 'Withdrawn Principal-Household Members will appear here after 5 days.';
           }
           return;
         } else {
