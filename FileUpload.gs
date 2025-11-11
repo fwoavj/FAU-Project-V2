@@ -1,16 +1,25 @@
 // ============================================================================
-// FILE UPLOAD MODULE
+// FILE UPLOAD MODULE - UPDATED FOR SUBFOLDERS
 // ============================================================================
 
 /**
- * Save a base64 file to Google Drive folder
+ * Save a base64 file to a specific Google Drive folder
+ * @param {string} fileName - The original name of the file
+ * @param {string} base64Data - The base64-encoded file content
+ * @param {string} mimeType - The MIME type of the file
+ * @param {string} personName - The name of the person (for file naming)
+ * @param {string} fileType - The type of file (e.g., "Passport", "PWD")
+ * @param {string} targetFolderId - The specific Google Drive Folder ID to save to
+ * @returns {string} The URL of the saved file
  */
-function saveFileToDrive(fileName, base64Data, mimeType, personName, fileType) {
+function saveFileToDrive(fileName, base64Data, mimeType, personName, fileType, targetFolderId) {
   try {
-    Logger.log('Saving file to Drive: ' + fileName);
+    // Default to the main folder ID if no specific one is provided
+    const folderId = targetFolderId || SYSTEM_CONFIG.DRIVE.FOLDER_ID;
+    const folder = DriveApp.getFolderById(folderId);
     
-    const folder = DriveApp.getFolderById(SYSTEM_CONFIG.DRIVE.FOLDER_ID);
-    
+    Logger.log(`Saving file to Drive: ${fileName} in folder ID: ${folderId}`);
+
     const base64Content = base64Data.includes(',') 
       ? base64Data.split(',')[1] 
       : base64Data;
@@ -23,6 +32,7 @@ function saveFileToDrive(fileName, base64Data, mimeType, personName, fileType) {
     
     const timestamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyyMMdd_HHmmss');
     const finalFileName = personName.replace(/[^a-zA-Z0-9]/g, '_') + '_' + fileType + '_' + timestamp + '_' + fileName;
+    
     const file = folder.createFile(blob);
     file.setName(finalFileName);
     
@@ -30,13 +40,13 @@ function saveFileToDrive(fileName, base64Data, mimeType, personName, fileType) {
       SYSTEM_CONFIG.SECURITY.FILE_SHARING.ACCESS,
       SYSTEM_CONFIG.SECURITY.FILE_SHARING.PERMISSION
     );
-    const fileUrl = file.getUrl();
     
+    const fileUrl = file.getUrl();
     Logger.log('File saved successfully: ' + fileUrl);
     return fileUrl;
     
   } catch (error) {
-    Logger.log('Error saving file to Drive: ' + error);
+    Logger.log(`Error saving file to Drive (Folder ID: ${targetFolderId}): ${error}`);
     throw new Error('Failed to save file: ' + error.message);
   }
 }
@@ -52,7 +62,8 @@ function processPrincipalPassportFile(principal) {
         principal.principalPassportFile.data,
         principal.principalPassportFile.mimeType,
         principal.fullName,
-        'Passport'
+        'Passport',
+        SYSTEM_CONFIG.DRIVE.SUBFOLDERS.PRINCIPAL_PASSPORTS // <-- Use specific folder
       );
       principal.principalPassportUrl = fileUrl;
       Logger.log('Principal passport saved: ' + fileUrl);
@@ -75,7 +86,8 @@ function processSoloParentFile(principal) {
         principal.soloParentFile.data,
         principal.soloParentFile.mimeType,
         principal.fullName,
-        'SoloParent'
+        'SoloParent',
+        SYSTEM_CONFIG.DRIVE.SUBFOLDERS.SOLO_PARENT // <-- Use specific folder
       );
       principal.soloParentUrl = fileUrl;
       Logger.log('Solo parent document saved: ' + fileUrl);
@@ -95,7 +107,7 @@ function processDependentFiles(dependents) {
   
   for (let i = 0; i < dependents.length; i++) {
     const dep = dependents[i];
-    const dependentName = dep.firstName + '_' + dep.lastName;
+    const dependentName = (dep.firstName + '_' + dep.lastName).replace(/[^a-zA-Z0-9]/g, '_');
     
     // Process passport file
     if (dep.passportFile && dep.passportFile.data) {
@@ -105,7 +117,8 @@ function processDependentFiles(dependents) {
           dep.passportFile.data,
           dep.passportFile.mimeType,
           dependentName,
-          'Passport'
+          'Passport',
+          SYSTEM_CONFIG.DRIVE.SUBFOLDERS.DEPENDENT_PASSPORTS // <-- Use specific folder
         );
         dep.passportUrl = fileUrl;
         Logger.log('Dependent passport saved for ' + dependentName + ': ' + fileUrl);
@@ -123,7 +136,8 @@ function processDependentFiles(dependents) {
           dep.pwdFile.data,
           dep.pwdFile.mimeType,
           dependentName,
-          'PWD'
+          'PWD',
+          SYSTEM_CONFIG.DRIVE.SUBFOLDERS.PWD // <-- Use specific folder
         );
         dep.pwdUrl = fileUrl;
         Logger.log('Dependent PWD saved for ' + dependentName + ': ' + fileUrl);
@@ -141,7 +155,8 @@ function processDependentFiles(dependents) {
           dep.approvalFaxFile.data,
           dep.approvalFaxFile.mimeType,
           dependentName,
-          'ApprovalFax'
+          'ApprovalFax',
+          SYSTEM_CONFIG.DRIVE.SUBFOLDERS.APPROVAL_FAX // <-- Use specific folder
         );
         dep.approvalFaxUrl = fileUrl;
         Logger.log('Approval fax saved for ' + dependentName + ': ' + fileUrl);
@@ -163,7 +178,7 @@ function processStaffFiles(staff) {
   
   for (let i = 0; i < staff.length; i++) {
     const staffMember = staff[i];
-    const staffName = staffMember.firstName + '_' + staffMember.lastName;
+    const staffName = (staffMember.firstName + '_' + staffMember.lastName).replace(/[^a-zA-Z0-9]/g, '_');
     
     // Process passport file
     if (staffMember.passportFile && staffMember.passportFile.data) {
@@ -173,7 +188,8 @@ function processStaffFiles(staff) {
           staffMember.passportFile.data,
           staffMember.passportFile.mimeType,
           staffName,
-          'Passport'
+          'Passport',
+          SYSTEM_CONFIG.DRIVE.SUBFOLDERS.DEPENDENT_PASSPORTS // <-- Use specific folder (assuming staff passports go with dependent passports)
         );
         staffMember.passportUrl = fileUrl;
         Logger.log('Staff passport saved for ' + staffName + ': ' + fileUrl);
@@ -191,7 +207,8 @@ function processStaffFiles(staff) {
           staffMember.pwdFile.data,
           staffMember.pwdFile.mimeType,
           staffName,
-          'PWD'
+          'PWD',
+          SYSTEM_CONFIG.DRIVE.SUBFOLDERS.PWD // <-- Use specific folder
         );
         staffMember.pwdUrl = fileUrl;
         Logger.log('Staff PWD saved for ' + staffName + ': ' + fileUrl);
@@ -264,9 +281,10 @@ function deleteFileFromDrive(fileUrl) {
  */
 function extractFileIdFromUrl(url) {
   if (!url) return null;
-  
   try {
-    const match = url.match(/[-\w]{25,}/);
+    // This regex looks for a long string of letters, numbers, hyphens, and underscores
+    // which is typical for Google Drive IDs
+    const match = url.match(/[-\w]{25,}/); 
     return match ? match[0] : null;
   } catch (error) {
     Logger.log('Error extracting file ID: ' + error);
@@ -320,31 +338,6 @@ function getFileInfo(fileUrl) {
 }
 
 /**
- * Create folder structure if it doesn't exist
- */
-function ensureFolderStructure() {
-  try {
-    const folder = DriveApp.getFolderById(SYSTEM_CONFIG.DRIVE.FOLDER_ID);
-    
-    // Create subfolders if needed
-    const subfolders = ['Passports', 'PWD_Documents', 'Approval_Fax', 'Solo_Parent'];
-    
-    subfolders.forEach(folderName => {
-      const existingFolders = folder.getFoldersByName(folderName);
-      if (!existingFolders.hasNext()) {
-        folder.createFolder(folderName);
-        Logger.log('Created subfolder: ' + folderName);
-      }
-    });
-    
-    return true;
-  } catch (error) {
-    Logger.log('Error ensuring folder structure: ' + error);
-    return false;
-  }
-}
-
-/**
  * Get upload statistics
  */
 function getUploadStatistics() {
@@ -371,7 +364,6 @@ function getUploadStatistics() {
       totalSizeMB: (totalSize / (1024 * 1024)).toFixed(2),
       fileTypes: fileTypes
     };
-    
   } catch (error) {
     Logger.log('Error getting upload statistics: ' + error);
     return null;
