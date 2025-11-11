@@ -32,7 +32,7 @@
     .header {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 32px;
+      padding: 10px;
       text-align: center;
     }
 
@@ -477,24 +477,24 @@
               <div class="field-help">Describe the extension (duration, reason, order number, etc.)</div>
             </div>
 
-            <!-- Smart Attendance Extension -->
+            <!-- Smart Status of Residency Extension -->
             <div class="checkbox-group">
               <input type="checkbox" id="extendAttendance" checked>
               <label for="extendAttendance">
-                🔄 Also record attendance for active family members
+                🔄 Also record status of residency for active family members
               </label>
             </div>
             <p style="font-size: 0.85rem; color: #666; margin-left: 30px;">
               This will automatically record "At Post" for active dependents and staff, 
-              resetting their 90-day attendance window.
+              resetting their 90-day status of residency window.
             </p>
 
             <!-- Family Preview -->
             <div id="familyPreview" class="preview-box hidden">
-              <h4>📋 Attendance Extension Preview</h4>
+              <h4>📋 Status of Residency Extension Preview</h4>
               
               <div id="activeFamily">
-                <strong style="color: #28a745;">✅ Will extend attendance for:</strong>
+                <strong style="color: #28a745;">✅ Will extend residency for:</strong>
                 <ul id="activeFamilyList">
                   <!-- Populated by JavaScript -->
                 </ul>
